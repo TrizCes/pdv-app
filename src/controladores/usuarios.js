@@ -15,7 +15,7 @@ const cadastrarUsuario = async (req, res) => {
 
         const novoUsuario = await knex('usuarios').insert({ nome, email, senha: senhaCriptografada }).returning('*');
 
-        if (!novoUsuario || novoUsuariosuario.length === 0) {
+        if (!novoUsuario || novoUsuario.length === 0) {
             return res.status(400).json("O usuário não foi cadastrado.");
         }
 
