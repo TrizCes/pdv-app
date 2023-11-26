@@ -21,10 +21,10 @@ const cadastrarUsuario = async (req, res) => {
 
         const { senha: _, ...dadosUsuario } = novoUsuario[0]
 
-        return res.status(200).json(dadosUsuario)
+        return res.status(201).json(dadosUsuario)
 
     } catch (error) {
-        return res.status(400).json({ mensagem: 'Erro interno no servidor' });
+        return res.status(500).json({ mensagem: 'Erro interno no servidor' });
     }
 }
 
