@@ -1,8 +1,6 @@
 const bcrypt = require("bcrypt");
 const knex = require("../utilitarios/conexao");
 const jwt = require("jsonwebtoken");
-const senhaJwt = require("../src/senhaJwt");
-
 
 const login = async (req, res) => {
     const { email, senha } = req.body;
@@ -25,7 +23,7 @@ const login = async (req, res) => {
             return res.status(400).json({ mensagem: "Email ou senha inválida!" });
         }
 
-        const token = jwt.sign({ id: userData.id }, senhaJwt, { expiresIn: "8h" });
+        const token = jwt.sign({ id: userData.id }, process.env.senhaJwt, { expiresIn: "8h" });
         return res.json({
             usuario: userData,
             token
@@ -36,7 +34,6 @@ const login = async (req, res) => {
         return res.status(500).json({ mensagem: "Erro interno do servidor!" });
     }
 };
-
 
 module.exports = {
     login
