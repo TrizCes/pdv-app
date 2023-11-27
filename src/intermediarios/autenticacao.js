@@ -1,6 +1,5 @@
 
 const jwt = require("jsonwebtoken");
-const senhaJwt = require("../senhaJwt");
 const knex = require("../utilitarios/conexao");
 
 const verificarLogin = async (req, res, next) => {
