@@ -5,7 +5,6 @@ const listarCategorias = async (req, res) => {
     const categorias = await knex('categorias').select('*');
     return res.status(200).json(categorias);
   } catch (erro) {
-    console.log(erro.message)
     return res.status(500).json({ mensagem: 'Erro ao carregar as categorias' });
   }
 };
