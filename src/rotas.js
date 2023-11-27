@@ -1,8 +1,8 @@
 const express = require('express');
-const listarCategorias = require('./controladores/categorias.js');
+const { atualizarUsuario } = require('./controladores/usuarios');
 
 const rotas = express();
 
-rotas.get('/categoria', listarCategorias);
+rotas.put('/usuario', atualizarUsuario);
 
 module.exports = rotas;
