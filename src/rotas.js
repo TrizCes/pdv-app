@@ -7,11 +7,10 @@ const listarCategorias = require('./controladores/categorias.js');
 
 const rotas = express();
 
+rotas.get('/categoria', listarCategorias);
 rotas.post('/usuario', validarCorpoRequisicao(schemaUsuario), cadastrarUsuario);
 
 rotas.post("/login", login);
-
-rotas.get('/categoria', listarCategorias);
 
 module.exports = rotas;
 
