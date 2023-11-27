@@ -1,6 +1,5 @@
-
+require("dotenv").config();
 const jwt = require("jsonwebtoken");
-const senhaJwt = require("../senhaJwt");
 const knex = require("../utilitarios/conexao");
 
 const verificarLogin = async (req, res, next) => {
@@ -12,7 +11,7 @@ const verificarLogin = async (req, res, next) => {
 
     const token = authorization.split(" ")[1];
     try {
-        const { id } = jwt.verify(token, senhaJwt);
+        const { id } = jwt.verify(token, process.env.senhaJwt);
         const [usuario] = await knex("usuarios").where("id", id).select("*");
 
         if (!usuario) {
