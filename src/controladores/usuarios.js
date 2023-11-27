@@ -12,7 +12,7 @@ const atualizarUsuario = async (req, res) => {
             return res.status(400).json('E-mail já está cadastrado!')
         }
 
-        const senhaCriptografada = await bcrypt.hash(senha, 10);
+        const senhaCriptografada = await hash(senha, 10);
 
         const usuarioAtualizado = await knex('usuarios')
             .where({ id: req.usuario.id })
@@ -25,7 +25,6 @@ const atualizarUsuario = async (req, res) => {
         return res.status(200).json('Usuario foi atualizado com sucesso.');
 
     } catch (error) {
-        console.log(error)
         return res.status(400).json({ mensagem: 'Erro interno no servidor' });
     }
 };
