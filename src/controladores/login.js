@@ -7,7 +7,7 @@ const login = async (req, res) => {
     const { email, senha } = req.body;
 
     if (!email || !senha) {
-        return res.status(500).json({ mensagem: "Todos os campos são obrigatórios!" });
+        return res.status(400).json({ mensagem: "Todos os campos são obrigatórios!" });
     }
 
     try {
