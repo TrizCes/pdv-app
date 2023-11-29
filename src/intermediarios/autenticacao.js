@@ -1,4 +1,3 @@
-
 const jwt = require("jsonwebtoken");
 const senhaJwt = require("../senhaJwt");
 const knex = require("../utilitarios/conexao");
