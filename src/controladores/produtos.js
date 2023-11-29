@@ -1,6 +1,5 @@
 const knex = require("../utilitarios/conexao");
 
-
 const cadastrarProduto = async (req, res) => {
     const { descricao, quantidade_estoque, valor, categoria_id } = req.body;
     try {
