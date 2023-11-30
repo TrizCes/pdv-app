@@ -41,9 +41,9 @@ const editarDadosDoProduto = async (req, res) => {
 
         if (!produtoAtualizado || produtoAtualizado.length === 0) {
             return res.status(400).json({ mensagem: 'Não foi possível atualizar os dados do produto. Por favor, tente novamente!' })
-        }
+        };
 
-        return res.status(200).json({ mensagem: 'Produto atualizado com sucesso!' })
+        return res.status(200).json({ mensagem: 'Produto atualizado com sucesso!' });
 
     } catch (error) {
         return res.status(500).json({ mensagem: "Erro interno do servidor!" });
