@@ -26,9 +26,9 @@ rotas.get('/usuario', verificarLogin, detalharUsuario);
 
 rotas.post('/produto', validarCorpoRequisicao(schemaProduto), cadastrarProduto);
 
-rotas.put('/produto/:id', validarCorpoRequisicao(schemaProduto), editarDadosDoProduto)
+rotas.put('/produto/:id', validarCorpoRequisicao(schemaProduto), editarDadosDoProduto);
 
-rotas.get('/produto/:id', detalharProduto)
+rotas.get('/produto/:id', detalharProduto);
 
 rotas.post('/cliente', validarCorpoRequisicao(schemaCliente), cadastrarCliente);
 
