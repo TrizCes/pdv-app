@@ -7,7 +7,7 @@ const schemaLogin = require('./validacoes/schemaLogin.js');
 const { login } = require('./controladores/login.js');
 const listarCategorias = require('./controladores/categorias.js');
 const schemaProduto = require('./validacoes/schemaProduto.js');
-const { cadastrarProduto } = require('./controladores/produtos.js');
+const { cadastrarProduto, atualizarDadosDoProduto } = require('./controladores/produtos.js');
 const schemaCliente = require('./validacoes/schemaClientes.js');
 const { cadastrarCliente } = require('./controladores/clientes.js');
 
@@ -25,6 +25,8 @@ rotas.put('/usuario', validarCorpoRequisicao(schemaUsuario), atualizarUsuario);
 rotas.get('/usuario', verificarLogin, detalharUsuario);
 
 rotas.post('/produto', validarCorpoRequisicao(schemaProduto), cadastrarProduto);
+
+rotas.put('/produto/:id', validarCorpoRequisicao(schemaProduto), atualizarDadosDoProduto)
 
 rotas.post('/cliente', validarCorpoRequisicao(schemaCliente), cadastrarCliente);
 
