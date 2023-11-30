@@ -20,7 +20,7 @@ const cadastrarProduto = async (req, res) => {
     }
 }
 
-const atualizarDadosDoProduto = async (req, res) => {
+const editarDadosDoProduto = async (req, res) => {
     const { descricao, quantidade_estoque, valor, categoria_id } = req.body;
     const { id } = req.params;
 
@@ -53,5 +53,5 @@ const atualizarDadosDoProduto = async (req, res) => {
 
 module.exports = {
     cadastrarProduto,
-    atualizarDadosDoProduto
+    editarDadosDoProduto
 }
