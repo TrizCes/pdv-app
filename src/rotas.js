@@ -6,6 +6,10 @@ const schemaUsuario = require('./validacoes/schemaUsuario.js');
 const schemaLogin = require('./validacoes/schemaLogin.js');
 const { login } = require('./controladores/login.js');
 const listarCategorias = require('./controladores/categorias.js');
+const schemaProduto = require('./validacoes/schemaProduto.js');
+const { cadastrarProduto } = require('./controladores/produtos.js');
+const schemaCliente = require('./validacoes/schemaClientes.js');
+const { cadastrarCliente } = require('./controladores/clientes.js');
 
 const rotas = express();
 
@@ -19,5 +23,9 @@ rotas.use(verificarLogin);
 rotas.put('/usuario', validarCorpoRequisicao(schemaUsuario), atualizarUsuario);
 
 rotas.get('/usuario', verificarLogin, detalharUsuario);
+
+rotas.post('/produto', validarCorpoRequisicao(schemaProduto), cadastrarProduto);
+
+rotas.post('/cliente', validarCorpoRequisicao(schemaCliente), cadastrarCliente);
 
 module.exports = rotas;
