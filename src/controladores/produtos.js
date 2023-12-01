@@ -1,4 +1,5 @@
 const knex = require("../utilitarios/conexao");
+const { id } = require("../validacoes/schemaUsuario");
 
 const cadastrarProduto = async (req, res) => {
     const { descricao, quantidade_estoque, valor, categoria_id } = req.body;
@@ -18,7 +19,7 @@ const cadastrarProduto = async (req, res) => {
     } catch (error) {
         return res.status(500).json({ mensagem: "Erro interno do servidor!" });
     }
-}
+};
 
 const editarDadosDoProduto = async (req, res) => {
     const { descricao, quantidade_estoque, valor, categoria_id } = req.body;
@@ -48,7 +49,30 @@ const editarDadosDoProduto = async (req, res) => {
     } catch (error) {
         return res.status(500).json({ mensagem: "Erro interno do servidor!" });
     };
+};
 
+const listarProdutos = async (req, res) => {
+    const { categoria_id } = req.query;
+    try {
+        const produtos = await knex('produtos').select('*');
+
+        if (!categoria_id) {
+            return res.status(200).json(produtos);
+        }
+
+
+        const produtosCategoriaId = await knex('produtos').select('*').where({ categoria_id });
+
+        if (produtosCategoriaId.length === 0) {
+            return res.status(400).json('Nenhum produto encontrado para o ID de categoria informado.');
+        }
+
+
+        return res.status(200).json(produtosCategoriaId);
+
+    } catch (error) {
+        return res.status(500).json({ mensagem: 'Erro interno no servidor' });
+    };
 };
 
 const detalharProduto = async (req, res) => {
@@ -70,5 +94,6 @@ const detalharProduto = async (req, res) => {
 module.exports = {
     cadastrarProduto,
     editarDadosDoProduto,
+    listarProdutos,
     detalharProduto
 };
