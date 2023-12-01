@@ -19,7 +19,37 @@ const cadastrarProduto = async (req, res) => {
     } catch (error) {
         return res.status(500).json({ mensagem: "Erro interno do servidor!" });
     }
-}
+};
+
+const editarDadosDoProduto = async (req, res) => {
+    const { descricao, quantidade_estoque, valor, categoria_id } = req.body;
+    const { id } = req.params;
+
+    const produtoExiste = await knex('produtos').where({ id }).first();
+
+    if (!produtoExiste) {
+        return res.status(404).json({ mensagem: 'Produto não encontrado!' })
+    };
+
+    try {
+        const categoriaExiste = await knex('categorias').where({ id: categoria_id }).first();
+
+        if (!categoriaExiste) {
+            return res.status(404).json({ mensagem: 'Categoria não encontrada!' })
+        };
+
+        const produtoAtualizado = await knex('produtos').update({ descricao, quantidade_estoque, valor, categoria_id }).where({ id }).returning('*');
+
+        if (!produtoAtualizado || produtoAtualizado.length === 0) {
+            return res.status(400).json({ mensagem: 'Não foi possível atualizar os dados do produto. Por favor, tente novamente!' })
+        };
+
+        return res.status(200).json({ mensagem: 'Produto atualizado com sucesso!' });
+
+    } catch (error) {
+        return res.status(500).json({ mensagem: "Erro interno do servidor!" });
+    };
+};
 
 const listarProdutos = async (req, res) => {
     const { categoria_id } = req.query;
@@ -42,11 +72,28 @@ const listarProdutos = async (req, res) => {
 
     } catch (error) {
         return res.status(500).json({ mensagem: 'Erro interno no servidor' });
-    }
+    };
+};
 
+const detalharProduto = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const produtoExiste = await knex('produtos').select('*').where({ id }).first();
+
+        if (!produtoExiste) {
+            return res.status(404).json({ mensagem: 'Produto não encontrado!' })
+        };
+
+        return res.status(200).json(produtoExiste);
+    } catch (error) {
+        return res.status(500).json({ mensagem: "Erro interno do servidor!" })
+    };
 };
 
 module.exports = {
     cadastrarProduto,
-    listarProdutos
-}
+    editarDadosDoProduto,
+    listarProdutos,
+    detalharProduto
+};
