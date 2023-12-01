@@ -26,7 +26,7 @@ const cadastrarCliente = async (req, res) => {
 
 const editarDadosDoCliente = async (req, res) => {
   const { nome, email, cpf, cep, rua, numero, bairro, cidade, estado } = req.body;
-  const { id } = req.params;
+  const id = parseInt(req.params.id);
 
   try {
     const clienteExistente = await knex('clientes').where({ id }).first();
@@ -40,12 +40,12 @@ const editarDadosDoCliente = async (req, res) => {
 
     const clienteComMesmoEmail = await knex('clientes').where({ email }).first();
     if (clienteComMesmoEmail && clienteComMesmoEmail.id !== id) {
-      return res.status(400).json('E-mail já está cadastrado!');
+      return res.status(400).json({ mensagem: 'E-mail já está cadastrado!' });
     }
 
     const clienteComMesmoCPF = await knex('clientes').where({ cpf }).first();
     if (clienteComMesmoCPF && clienteComMesmoCPF.id !== id) {
-      return res.status(400).json('CPF já está cadastrado!');
+      return res.status(400).json({ mensagem: 'CPF já está cadastrado!' });
     }
 
     const clienteAtualizado = await knex('clientes')
