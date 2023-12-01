@@ -1,20 +1,18 @@
-
-const knex = require("../utilitarios/conexao");
+const knex = require('../utilitarios/conexao');
 
 const cadastrarCliente = async (req, res) => {
   const { nome, email, cpf, cep, rua, numero, bairro, cidade, estado } = req.body;
 
   try {
-    const clienteJaExiste = await knex('clientes')
-    .where('email', email)
-    .orWhere('cpf', cpf)
-    .first();
+    const clienteJaExiste = await knex('clientes').where('email', email).orWhere('cpf', cpf).first();
 
     if (clienteJaExiste) {
       return res.status(400).json('Cliente já está cadastrado!');
     }
 
-    const novoCliente = await knex('clientes').insert({ nome, email, cpf, cep, rua, numero, bairro, cidade, estado}).returning('*');
+    const novoCliente = await knex('clientes')
+      .insert({ nome, email, cpf, cep, rua, numero, bairro, cidade, estado })
+      .returning('*');
 
     if (!novoCliente || novoCliente.length === 0) {
       return res.status(400).json('O cliente não foi cadastrado.');
@@ -26,6 +24,23 @@ const cadastrarCliente = async (req, res) => {
   }
 };
 
+const detalharCliente = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const clienteExiste = await knex('clientes').select('*').where({ id }).first();
+
+    if (!clienteExiste) {
+      return res.status(404).json({ mensagem: 'O cliente não foi encontrado!' });
+    }
+
+    return res.status(200).json(clienteExiste);
+  } catch (error) {
+    return res.status(500).json({ mensagem: 'Erro interno do servidor!' });
+  }
+};
+
 module.exports = {
-    cadastrarCliente
-}
+  cadastrarCliente,
+  detalharCliente,
+};

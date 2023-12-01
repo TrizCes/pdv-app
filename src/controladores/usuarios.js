@@ -1,8 +1,5 @@
 const knex = require("../utilitarios/conexao");
-const { userData } = require("../intermediarios/autenticacao")
 const { hash } = require('bcrypt');
-
-
 
 const cadastrarUsuario = async (req, res) => {
   const { nome, email, senha } = req.body;
