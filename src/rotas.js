@@ -7,15 +7,20 @@ const schemaLogin = require('./validacoes/schemaLogin.js');
 const { login } = require('./controladores/login.js');
 const listarCategorias = require('./controladores/categorias.js');
 const {
-    cadastrarProduto,
-    editarDadosDoProduto,
-    listarProdutos,
-    detalharProduto,
-    excluirProduto,
+  cadastrarProduto,
+  editarDadosDoProduto,
+  listarProdutos,
+  detalharProduto,
+  excluirProduto,
 } = require('./controladores/produtos.js');
 const schemaProduto = require('./validacoes/schemaProduto.js');
 const schemaCliente = require('./validacoes/schemaClientes.js');
-const { cadastrarCliente, editarDadosDoCliente, listarClientes, detalharCliente } = require('./controladores/clientes.js');
+const {
+  cadastrarCliente,
+  editarDadosDoCliente,
+  listarClientes,
+  detalharCliente,
+} = require('./controladores/clientes.js');
 
 const rotas = express();
 
@@ -33,7 +38,7 @@ rotas.post('/produto', validarCorpoRequisicao(schemaProduto), cadastrarProduto);
 rotas.put('/produto/:id', validarCorpoRequisicao(schemaProduto), editarDadosDoProduto);
 rotas.get('/produto', listarProdutos);
 rotas.get('/produto/:id', detalharProduto);
-rotas.delete('/produto/:id', excluirProduto)
+rotas.delete('/produto/:id', excluirProduto);
 
 rotas.post('/cliente', validarCorpoRequisicao(schemaCliente), cadastrarCliente);
 rotas.put('/cliente/:id', validarCorpoRequisicao(schemaCliente), editarDadosDoCliente);
