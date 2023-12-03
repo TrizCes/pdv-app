@@ -1,5 +1,4 @@
 const knex = require('../utilitarios/conexao');
-const { id } = require('../validacoes/schemaUsuario');
 
 const cadastrarProduto = async (req, res) => {
   const { descricao, quantidade_estoque, valor, categoria_id } = req.body;
@@ -94,9 +93,27 @@ const detalharProduto = async (req, res) => {
   }
 };
 
+const excluirProduto = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const produtoIdExiste = await knex('produtos').where({ id }).first();
+
+    if (!produtoIdExiste) {
+      return res.status(404).json({ mensagem: 'Nenhum produto encontrado para o ID informado.' });
+    }
+
+    const produtoExcluido = await knex('produtos').delete('*').where({ id });
+
+    return res.status(200).json({ mensagem: 'Produto excluído com sucesso.' });
+  } catch (error) {
+    return res.status(500).json({ mensagem: 'Erro interno no servidor' });
+  }
+};
+
 module.exports = {
   cadastrarProduto,
   editarDadosDoProduto,
   listarProdutos,
   detalharProduto,
+  excluirProduto,
 };
