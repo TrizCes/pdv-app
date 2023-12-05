@@ -44,3 +44,20 @@ CREATE TABLE produtos (
   cidade VARCHAR(250) NOT NULL,
   estado VARCHAR(150) NOT NULL
  );
+
+CREATE TABLE pedidos(
+id SERIAL PRIMARY KEY,
+cliente_id INT REFERENCES clientes(id) NOT NULL,
+observacao TEXT,
+valor_total INT NOT NULL
+);
+
+CREATE TABLE pedido_produtos (
+id SERIAL PRIMARY KEY,
+pedido_id INT REFERENCES pedidos(id) NOT NULL,
+produto_id INT REFERENCES produtos(id) NOT NULL,
+quantidade_produto INT NOT NULL,
+valor_produto INT NOT NULL
+);
+
+ALTER TABLE produtos ADD COLUMN produto_imagem TEXT; 
