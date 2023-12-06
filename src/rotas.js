@@ -21,6 +21,9 @@ const {
   listarClientes,
   detalharCliente,
 } = require('./controladores/clientes.js');
+const {
+  listarPedidos
+} = require('./controladores/pedidos.js');
 
 const rotas = express();
 
@@ -44,5 +47,7 @@ rotas.post('/cliente', validarCorpoRequisicao(schemaCliente), cadastrarCliente);
 rotas.put('/cliente/:id', validarCorpoRequisicao(schemaCliente), editarDadosDoCliente);
 rotas.get('/cliente', listarClientes);
 rotas.get('/cliente/:id', detalharCliente);
+
+rotas.get('/pedido', listarPedidos)
 
 module.exports = rotas;
