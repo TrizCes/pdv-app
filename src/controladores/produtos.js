@@ -102,6 +102,12 @@ const excluirProduto = async (req, res) => {
       return res.status(404).json({ mensagem: 'Nenhum produto encontrado para o ID informado.' });
     }
 
+    const produtoPedido = await knex('pedido_produtos').where({ produto_id: id }).first()
+
+    if (produtoPedido) {
+      return res.status(404).json({ mensagem: 'Não foi possível excluir o produto. Ele está vinculado a um ou mais pedidos.' });
+    }
+
     const produtoExcluido = await knex('produtos').delete('*').where({ id });
 
     return res.status(200).json({ mensagem: 'Produto excluído com sucesso.' });
