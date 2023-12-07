@@ -21,9 +21,9 @@ const {
   listarClientes,
   detalharCliente,
 } = require('./controladores/clientes.js');
-const {
-  listarPedidos
-} = require('./controladores/pedidos.js');
+const schemaPedido = require('./validacoes/schemaPedido.js');
+const { cadastrarPedido, listarPedidos } = require('./controladores/pedidos.js');
+
 
 const rotas = express();
 
@@ -48,6 +48,7 @@ rotas.put('/cliente/:id', validarCorpoRequisicao(schemaCliente), editarDadosDoCl
 rotas.get('/cliente', listarClientes);
 rotas.get('/cliente/:id', detalharCliente);
 
-rotas.get('/pedido', listarPedidos)
+rotas.post('/pedido', validarCorpoRequisicao(schemaPedido), cadastrarPedido);
+rotas.get('/pedido', listarPedidos);
 
 module.exports = rotas;
