@@ -1,5 +1,6 @@
 const knex = require('../utilitarios/conexao');
 const { id } = require('../validacoes/schemaUsuario');
+const { uploadArquivo } = require('../servicos/armazenamento');
 
 const cadastrarProduto = async (req, res) => {
   const { descricao, quantidade_estoque, valor, categoria_id } = req.body;
@@ -9,8 +10,31 @@ const cadastrarProduto = async (req, res) => {
       return res.status(400).json('Produto já está cadastrado!');
     }
 
+    let produto_imagem;
+
+    if (req.file) {
+      try {
+        const resultadoUpload = await uploadArquivo(
+          `${req.file.originalname}`,
+          req.file.buffer,
+          req.file.mimetype
+        );
+
+        produto_imagem = resultadoUpload;
+
+      } catch (uploadError) {
+        return res.status(500).json({ mensagem: 'Erro interno no servidor durante o upload da imagem.' });
+      }
+    }
+
     const produto = await knex('produtos')
-      .insert({ descricao, quantidade_estoque, valor, categoria_id })
+      .insert({
+        descricao,
+        quantidade_estoque,
+        valor,
+        categoria_id,
+        produto_imagem
+      })
       .returning('*');
 
     if (produto.rowCount === 0) {
@@ -40,8 +64,30 @@ const editarDadosDoProduto = async (req, res) => {
       return res.status(404).json({ mensagem: 'Categoria não encontrada!' });
     }
 
+    let produto_imagem;
+
+    if (req.file) {
+      try {
+        const resultadoUpload = await uploadArquivo(
+          `${req.file.originalname}`,
+          req.file.buffer,
+          req.file.mimetype
+        );
+
+        produto_imagem = resultadoUpload;
+      } catch (uploadError) {
+        return res.status(500).json({ mensagem: 'Erro interno no servidor durante o upload da imagem.' });
+      }
+    }
+
     const produtoAtualizado = await knex('produtos')
-      .update({ descricao, quantidade_estoque, valor, categoria_id })
+      .update({
+        descricao,
+        quantidade_estoque,
+        valor,
+        categoria_id,
+        produto_imagem
+      })
       .where({ id })
       .returning('*');
 

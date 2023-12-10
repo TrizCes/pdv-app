@@ -1,4 +1,6 @@
 const express = require('express');
+const multer = require('./intermediarios/multer')
+
 const { atualizarUsuario, cadastrarUsuario, detalharUsuario } = require('./controladores/usuarios.js');
 const verificarLogin = require('./intermediarios/autenticacao.js');
 const validarCorpoRequisicao = require('./intermediarios/validarCorpoRequisicao.js');
@@ -28,8 +30,8 @@ rotas.use(verificarLogin);
 rotas.put('/usuario', validarCorpoRequisicao(schemaUsuario), atualizarUsuario);
 rotas.get('/usuario', detalharUsuario);
 
-rotas.post('/produto', validarCorpoRequisicao(schemaProduto), cadastrarProduto);
-rotas.put('/produto/:id', validarCorpoRequisicao(schemaProduto), editarDadosDoProduto);
+rotas.post('/produto', multer.single('arquivo'), validarCorpoRequisicao(schemaProduto), cadastrarProduto);
+rotas.put('/produto/:id', multer.single('arquivo'), validarCorpoRequisicao(schemaProduto), editarDadosDoProduto);
 rotas.get('/produto', listarProdutos);
 rotas.get('/produto/:id', detalharProduto);
 
