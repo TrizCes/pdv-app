@@ -35,7 +35,7 @@ const cadastrarProduto = async (req, res) => {
       return res.status(400).json('O produto não foi cadastrado');
     }
 
-    return res.status(201).json({ mensagem: 'Produto cadastrado com sucesso!' });
+    return res.status(201).json(produto[0]);
   } catch (error) {
     return res.status(500).json({ mensagem: 'Erro interno do servidor!' });
   }
