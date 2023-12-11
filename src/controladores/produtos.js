@@ -1,5 +1,6 @@
 const knex = require('../utilitarios/conexao');
-const { uploadArquivo } = require('../servicos/armazenamento');
+const { uploadArquivo, excluirArquivo } = require('../servicos/armazenamento');
+const { logger } = require('../utilitarios/conexao_nodemailer');
 
 const cadastrarProduto = async (req, res) => {
   const { descricao, quantidade_estoque, valor, categoria_id } = req.body;
@@ -44,13 +45,13 @@ const editarDadosDoProduto = async (req, res) => {
   const { descricao, quantidade_estoque, valor, categoria_id } = req.body;
   const { id } = req.params;
 
-  const produtoExiste = await knex('produtos').where({ id }).first();
-
-  if (!produtoExiste) {
-    return res.status(404).json({ mensagem: 'Produto não encontrado!' });
-  }
-
   try {
+    const produtoExiste = await knex('produtos').where({ id }).first();
+
+    if (!produtoExiste) {
+      return res.status(404).json({ mensagem: 'Produto não encontrado!' });
+    }
+
     const categoriaExiste = await knex('categorias').where({ id: categoria_id }).first();
 
     if (!categoriaExiste) {
@@ -61,6 +62,9 @@ const editarDadosDoProduto = async (req, res) => {
 
     if (req.file) {
       try {
+        const urlArquivoImagem = produtoExiste.produto_imagem;
+        await excluirArquivo(urlArquivoImagem);
+        
         const resultadoUpload = await uploadArquivo(`${req.file.originalname}`, req.file.buffer, req.file.mimetype);
 
         produto_imagem = resultadoUpload;
@@ -147,6 +151,9 @@ const excluirProduto = async (req, res) => {
     }
 
     const produtoExcluido = await knex('produtos').delete('*').where({ id });
+    const urlArquivoImagem = produtoExcluido[0].produto_imagem;
+
+    await excluirArquivo(urlArquivoImagem);
 
     return res.status(200).json({ mensagem: 'Produto excluído com sucesso.' });
   } catch (error) {
