@@ -31,6 +31,19 @@ const uploadArquivo = async (path, buffer, mimetype) => {
   }
 };
 
+const excluirArquivo = async (path) => {
+  try {
+    const arquivoExcluir = new DeleteObjectCommand({
+      Bucket: process.env.BACKBLAZE_BUCKET,
+      Key: path,
+    });
+    await s3.send(arquivoExcluir);
+  } catch (erro) {
+    console.log(`Erro ao deletar imagem do banco de dados: ${erro.message}`);
+  }
+};
+
 module.exports = {
   uploadArquivo,
+  excluirArquivo,
 };
