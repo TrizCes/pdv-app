@@ -23,6 +23,7 @@ const schemaProduto = joi.object({
     'number.base': 'É necessário informar a categoria do produto.',
     'number.integer': 'A categoria do produto deve ser um número inteiro',
   }),
+  produto_imagem: joi.object().optional()
 });
 
 module.exports = schemaProduto;

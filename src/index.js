@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+
 const rotas = require('./rotas.js');
 
 const porta = process.env.PORTA || 3000;
