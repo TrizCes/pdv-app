@@ -13,14 +13,8 @@ const cadastrarProduto = async (req, res) => {
 
     if (req.file) {
       try {
-        const resultadoUpload = await uploadArquivo(
-          `${req.file.originalname}`,
-          req.file.buffer,
-          req.file.mimetype
-        );
-
+        const resultadoUpload = await uploadArquivo(`${req.file.originalname}`, req.file.buffer, req.file.mimetype);
         produto_imagem = resultadoUpload;
-
       } catch (uploadError) {
         return res.status(500).json({ mensagem: 'Erro interno no servidor durante o upload da imagem.' });
       }
@@ -32,7 +26,7 @@ const cadastrarProduto = async (req, res) => {
         quantidade_estoque,
         valor,
         categoria_id,
-        produto_imagem
+        produto_imagem,
       })
       .returning('*');
 
@@ -67,11 +61,7 @@ const editarDadosDoProduto = async (req, res) => {
 
     if (req.file) {
       try {
-        const resultadoUpload = await uploadArquivo(
-          `${req.file.originalname}`,
-          req.file.buffer,
-          req.file.mimetype
-        );
+        const resultadoUpload = await uploadArquivo(`${req.file.originalname}`, req.file.buffer, req.file.mimetype);
 
         produto_imagem = resultadoUpload;
       } catch (uploadError) {
@@ -85,7 +75,7 @@ const editarDadosDoProduto = async (req, res) => {
         quantidade_estoque,
         valor,
         categoria_id,
-        produto_imagem
+        produto_imagem,
       })
       .where({ id })
       .returning('*');
@@ -148,10 +138,12 @@ const excluirProduto = async (req, res) => {
       return res.status(404).json({ mensagem: 'Nenhum produto encontrado para o ID informado.' });
     }
 
-    const produtoPedido = await knex('pedido_produtos').where({ produto_id: id }).first()
+    const produtoPedido = await knex('pedido_produtos').where({ produto_id: id }).first();
 
     if (produtoPedido) {
-      return res.status(404).json({ mensagem: 'Não foi possível excluir o produto. Ele está vinculado a um ou mais pedidos.' });
+      return res
+        .status(404)
+        .json({ mensagem: 'Não foi possível excluir o produto. Ele está vinculado a um ou mais pedidos.' });
     }
 
     const produtoExcluido = await knex('produtos').delete('*').where({ id });

@@ -39,8 +39,8 @@ rotas.use(verificarLogin);
 rotas.put('/usuario', validarCorpoRequisicao(schemaUsuario), atualizarUsuario);
 rotas.get('/usuario', detalharUsuario);
 
-rotas.post('/produto', multer.single('arquivo'), validarCorpoRequisicao(schemaProduto), cadastrarProduto);
-rotas.put('/produto/:id', multer.single('arquivo'), validarCorpoRequisicao(schemaProduto), editarDadosDoProduto);
+rotas.post('/produto', multer.single('produto_imagem'), validarCorpoRequisicao(schemaProduto), cadastrarProduto);
+rotas.put('/produto/:id', multer.single('produto_imagem'), validarCorpoRequisicao(schemaProduto), editarDadosDoProduto);
 rotas.get('/produto', listarProdutos);
 rotas.get('/produto/:id', detalharProduto);
 rotas.delete('/produto/:id', excluirProduto);
