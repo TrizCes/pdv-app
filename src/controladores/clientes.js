@@ -18,7 +18,7 @@ const cadastrarCliente = async (req, res) => {
       return res.status(400).json('O cliente não foi cadastrado.');
     }
 
-    return res.status(201).json(novoCliente);
+    return res.status(201).json(novoCliente[0]);
   } catch (error) {
     return res.status(500).json({ mensagem: 'Erro interno no servidor' });
   }
