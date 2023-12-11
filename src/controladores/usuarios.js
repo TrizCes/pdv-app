@@ -1,4 +1,4 @@
-const knex = require("../utilitarios/conexao");
+const knex = require('../utilitarios/conexao');
 const { hash } = require('bcrypt');
 
 const cadastrarUsuario = async (req, res) => {
@@ -56,7 +56,6 @@ const atualizarUsuario = async (req, res) => {
 
 const detalharUsuario = async (req, res) => {
   try {
-
     const usuarioId = req.usuario.id;
 
     if (!usuarioId) {
@@ -74,5 +73,5 @@ const detalharUsuario = async (req, res) => {
 module.exports = {
   cadastrarUsuario,
   atualizarUsuario,
-  detalharUsuario
-}
+  detalharUsuario,
+};

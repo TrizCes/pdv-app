@@ -13,10 +13,19 @@ const {
   editarDadosDoProduto,
   listarProdutos,
   detalharProduto,
+  excluirProduto,
 } = require('./controladores/produtos.js');
 const schemaProduto = require('./validacoes/schemaProduto.js');
 const schemaCliente = require('./validacoes/schemaClientes.js');
-const { cadastrarCliente, detalharCliente } = require('./controladores/clientes.js');
+const {
+  cadastrarCliente,
+  editarDadosDoCliente,
+  listarClientes,
+  detalharCliente,
+} = require('./controladores/clientes.js');
+const schemaPedido = require('./validacoes/schemaPedido.js');
+const { cadastrarPedido, listarPedidos } = require('./controladores/pedidos.js');
+
 
 const rotas = express();
 
@@ -34,8 +43,14 @@ rotas.post('/produto', multer.single('arquivo'), validarCorpoRequisicao(schemaPr
 rotas.put('/produto/:id', multer.single('arquivo'), validarCorpoRequisicao(schemaProduto), editarDadosDoProduto);
 rotas.get('/produto', listarProdutos);
 rotas.get('/produto/:id', detalharProduto);
+rotas.delete('/produto/:id', excluirProduto);
 
 rotas.post('/cliente', validarCorpoRequisicao(schemaCliente), cadastrarCliente);
+rotas.put('/cliente/:id', validarCorpoRequisicao(schemaCliente), editarDadosDoCliente);
+rotas.get('/cliente', listarClientes);
 rotas.get('/cliente/:id', detalharCliente);
+
+rotas.post('/pedido', validarCorpoRequisicao(schemaPedido), cadastrarPedido);
+rotas.get('/pedido', listarPedidos);
 
 module.exports = rotas;
