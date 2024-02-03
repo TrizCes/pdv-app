@@ -7,7 +7,7 @@ create table usuarios (
   senha text not null
  );
   
- create table categorias (
+create table categorias (
   id serial primary key,
   descricao text not null
 );
